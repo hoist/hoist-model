@@ -3,7 +3,6 @@ var Application = require('../../lib').Application;
 var expect = require('chai').expect;
 var dbUri = 'mongodb://localhost/hoist-model-test';
 var mongoose = require('mongoose');
-require('mocha-mongoose')(dbUri);
 require('../bootstrap');
 /*jshint -W030 */
 describe('Application', function () {
@@ -12,6 +11,11 @@ describe('Application', function () {
       return done();
     }
     mongoose.connect(dbUri, done);
+  });
+  after(function(done){
+    Application.remove({},function(){
+      mongoose.disconnect(done);
+    });
   });
   describe('on save', function () {
     var saved;
