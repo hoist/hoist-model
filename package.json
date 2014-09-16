@@ -1,0 +1,44 @@
+{
+  "name": "hoist-model",
+  "version": "1.0.0",
+  "description": "The Hoist Model",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:hoist/hoist-model.git"
+  },
+  "author": "Hoist Apps Ltd",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hoist/hoist-model/issues"
+  },
+  "homepage": "https://github.com/hoist/hoist-model",
+  "devDependencies": {
+    "chai": "^1.9.1",
+    "chai-as-promised": "^4.1.1",
+    "gulp": "^3.8.8",
+    "gulp-istanbul": "^0.3.0",
+    "gulp-istanbul-enforcer": "^1.0.3",
+    "gulp-jshint": "^1.8.4",
+    "gulp-mocha": "^1.1.0",
+    "jshint-growl-reporter": "^0.1.1",
+    "jshint-stylish": "^0.4.0",
+    "mocha": "^1.21.4",
+    "mocha-mongoose": "^1.0.1",
+    "mongodb": "^1.4.11",
+    "run-sequence": "^0.3.6",
+    "sinon": "^1.10.3",
+    "sinon-chai": "^2.5.0"
+  },
+  "dependencies": {
+    "lodash": "^2.4.1",
+    "mongoose": "^3.8.16",
+    "mongoose-q": "0.0.12",
+    "mongoose-shortid": "git://github.com/jjwchoy/mongoose-shortid",
+    "mongoose-timestamp": "^0.3.0",
+    "q": "^1.0.1"
+  }
+}
