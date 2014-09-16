@@ -3,12 +3,6 @@ machine:
     version: 2.1.2
   node:
     version: v0.10.31
-deployment:
-  production:
-    branch: master
-    commands:
-      - bundle install
-      - bundle exec cap production deploy
 general:
   artifacts:
     - coverage/**/*
