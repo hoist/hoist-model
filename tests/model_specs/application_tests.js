@@ -7,6 +7,7 @@ require('../bootstrap');
 /*jshint -W030 */
 describe('Application', function () {
   before(function (done) {
+
     if (mongoose.connection.db) {
       return done();
     }
@@ -22,7 +23,7 @@ describe('Application', function () {
     before(function () {
       saved = new Application({
         organisation: 'orgid'
-      }).saveQ();
+      }).saveAsync();
     });
     it('should save ok', function () {
       return expect(saved).to.be.fulfilled;
