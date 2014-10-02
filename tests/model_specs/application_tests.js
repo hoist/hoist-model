@@ -13,9 +13,12 @@ describe('Application', function () {
     }
     mongoose.connect(dbUri, done);
   });
-  after(function(done){
-    Application.remove({},function(){
-      mongoose.disconnect(done);
+  after(function (done) {
+    Application.remove({}, function () {
+      mongoose.disconnect(function () {
+        delete mongoose.connection.db;
+        done();
+      });
     });
   });
   describe('on save', function () {
