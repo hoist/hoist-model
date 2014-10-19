@@ -28,20 +28,26 @@ describe('Application', function () {
         organisation: 'orgid'
       }).saveAsync();
     });
-    it('should save ok', function () {
+    it('doesn\'t default deployment date', function () {
+      return saved.then(function (applicaiton) {
+        expect(applicaiton.lastDeploy.dev)
+          .to.not.exist;
+      });
+    });
+    it('saves', function () {
       return expect(saved).to.be.fulfilled;
     });
-    it('should not have modified date', function () {
+    it('sets modified date', function () {
       return saved.then(function (application) {
         expect(application.updatedAt).to.exist;
       });
     });
-    it('should not have created date', function () {
+    it('sets created date', function () {
       return saved.then(function (application) {
         expect(application.createdAt).to.exist;
       });
     });
-    it('should have a short id', function () {
+    it('sets a short id', function () {
       return saved.then(function (application) {
         expect(application._id.length).to.eql(20);
       });
