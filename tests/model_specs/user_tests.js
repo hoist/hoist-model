@@ -1,9 +1,10 @@
 'use strict';
+require('../bootstrap');
 var User = require('../../lib').User;
 var expect = require('chai').expect;
 var dbUri = 'mongodb://localhost/hoist-model-test';
 var mongoose = require('mongoose');
-require('../bootstrap');
+
 describe('User', function () {
   before(function (done) {
     if (mongoose.connection.db) {
@@ -35,8 +36,8 @@ describe('User', function () {
       it('is saved', function () {
         return expect(saved).to.be.fulfilled;
       });
-      it('has id',function(){
-        return expect(saved.then(function(user){
+      it('has id', function () {
+        return expect(saved.then(function (user) {
           return user._id.length;
         })).to.become(20);
       });
@@ -45,7 +46,7 @@ describe('User', function () {
       beforeEach(function () {
         user.emailAddresses = [];
       });
-      afterEach(function(){
+      afterEach(function () {
         user.emailAddresses = [];
       });
       it('allows valid email', function () {
@@ -69,9 +70,8 @@ describe('User', function () {
         });
 
       });
-       it('rejects blank email', function () {
-        user.emailAddresses.push({
-        });
+      it('rejects blank email', function () {
+        user.emailAddresses.push({});
         return user.validateAsync().then(function () {
           //fail here;
           expect(false).to.be.true();
@@ -88,13 +88,27 @@ describe('User', function () {
       before(function () {
         user.passwordHash = '$2a$05$VJrbskBV2dlPhon1wIh9y./vvDukMeLJ0jwWxM.R/qQxBwa9F6vSa';
       });
-      it('accepts valid password', function(){
+      it('accepts valid password', function () {
         /* jshint -W030 */
         expect(user.verifyPassword('password')).to.be.true;
       });
-      it('rejects invalid password', function(){
+      it('rejects invalid password', function () {
         /* jshint -W030 */
         expect(user.verifyPassword('ps')).to.be.false;
+      });
+    });
+    describe('#setPassword', function () {
+      before(function (done) {
+        delete user.passwordHash;
+        user.setPassword('password', done);
+      });
+      it('sets password hash', function () {
+        expect(user.passwordHash)
+          .to.not.eql('password');
+      });
+      it('sets a valid hash', function () {
+        expect(user.verifyPassword('password'))
+        .to.eql(true);
       });
     });
   });

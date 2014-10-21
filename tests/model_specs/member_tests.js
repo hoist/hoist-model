@@ -1,9 +1,10 @@
 'use strict';
+require('../bootstrap');
 var Member = require('../../lib').Member;
 var expect = require('chai').expect;
 var dbUri = 'mongodb://localhost/hoist-model-test';
 var mongoose = require('mongoose');
-require('../bootstrap');
+
 describe('Member', function () {
   before(function (done) {
     if (mongoose.connection.db) {
