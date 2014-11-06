@@ -1,11 +1,11 @@
 'use strict';
 require('../bootstrap');
-var User = require('../../lib').User;
+var HoistUser = require('../../lib').HoistUser;
 var expect = require('chai').expect;
 var dbUri = 'mongodb://localhost/hoist-model-test';
 var mongoose = require('mongoose');
 
-describe('User', function () {
+describe('HoistUser', function () {
   before(function (done) {
     if (mongoose.connection.db) {
       return done();
@@ -14,7 +14,7 @@ describe('User', function () {
     mongoose.connect(dbUri, done);
   });
   after(function (done) {
-    User.remove({}, function () {
+    HoistUser.remove({}, function () {
       mongoose.disconnect(function () {
         delete mongoose.connection.db;
         done();
@@ -24,7 +24,7 @@ describe('User', function () {
   describe('validation', function () {
     var user;
     before(function () {
-      user = new User({
+      user = new HoistUser({
         organisation: 'orgid'
       });
     });
