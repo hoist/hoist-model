@@ -8,7 +8,6 @@ var mongoose = require('mongoose');
 /*jshint -W030 */
 describe('Application', function () {
   before(function (done) {
-
     if (mongoose.connection.db) {
       return done();
     }
@@ -22,6 +21,9 @@ describe('Application', function () {
       });
     });
   });
+  afterEach(function (done) {
+      Application.remove({}, done);
+    });
   describe('on save', function () {
     var saved;
     before(function () {
@@ -29,9 +31,10 @@ describe('Application', function () {
         organisation: 'orgid'
       }).saveAsync();
     });
+
     it('doesn\'t default deployment date', function () {
-      return saved.then(function (applicaiton) {
-        expect(applicaiton.lastDeploy.dev)
+      return saved.then(function (application) {
+        expect(application.lastDeploy.dev)
           .to.not.exist;
       });
     });
@@ -48,9 +51,40 @@ describe('Application', function () {
         expect(application.createdAt).to.exist;
       });
     });
+    it('sets data key', function () {
+      return saved.then(function (application) {
+        expect(application.dataKey).to.exist;
+        expect(application.dataKey.toLowerCase()).to.eql(application.dataKey);
+      });
+    });
+    it('sets api key', function () {
+      return saved.then(function (application) {
+        expect(application.apiKey).to.exist;
+      });
+    });
     it('sets a short id', function () {
       return saved.then(function (application) {
         expect(application._id.length).to.eql(20);
+      });
+    });
+  });
+  describe('on delete', function () {
+    var deleted;
+    before(function () {
+      deleted = new Application({
+        organisation: 'orgid'
+      }).saveAsync().then(function (application) {
+        return application.deleteAsync();
+      });
+    });
+
+    it('soft deletes', function () {
+      return deleted.then(function () {
+        return Application.findAsync({});
+      }).then(function (applications) {
+        console.log(applications);
+        expect(applications.length).to.eql(1);
+        expect(applications[0].deleted).to.eql(true);
       });
     });
   });
