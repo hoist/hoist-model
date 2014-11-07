@@ -82,7 +82,6 @@ describe('Application', function () {
       return deleted.then(function () {
         return Application.findAsync({});
       }).then(function (applications) {
-        console.log(applications);
         expect(applications.length).to.eql(1);
         expect(applications[0].deleted).to.eql(true);
       });

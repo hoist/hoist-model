@@ -25,8 +25,8 @@ describe('AppUser', function () {
     var appUser;
     before(function () {
       appUser = new AppUser({
-        application:'appid',
-        environment:'live'
+        application: 'appid',
+        environment: 'live'
       });
     });
     describe('save', function () {
@@ -37,17 +37,17 @@ describe('AppUser', function () {
       it('is saved', function () {
         return expect(saved).to.be.fulfilled;
       });
-      it('has id',function(){
-        return expect(saved.then(function(appUser){
+      it('has id', function () {
+        return expect(saved.then(function (appUser) {
           return appUser._id.length;
         })).to.become(20);
       });
     });
-    describe('application',function(){
-      afterEach(function(){
+    describe('application', function () {
+      afterEach(function () {
         appUser.application = 'appid';
       });
-      it('is required',function(){
+      it('is required', function () {
         appUser.application = null;
         return appUser.validateAsync().then(function () {
           //fail here;
@@ -60,11 +60,11 @@ describe('AppUser', function () {
         });
       });
     });
-     describe('environment',function(){
-      afterEach(function(){
+    describe('environment', function () {
+      afterEach(function () {
         appUser.environment = 'live';
       });
-      it('is required',function(){
+      it('is required', function () {
         appUser.environment = null;
         return appUser.validateAsync().then(function () {
           //fail here;
@@ -76,7 +76,7 @@ describe('AppUser', function () {
           expect(err.errors.environment.message).to.eql('users must belong to a valid environment');
         });
       });
-      it('it must be a valid environment',function(){
+      it('it must be a valid environment', function () {
         appUser.environment = 'random';
         return appUser.validateAsync().then(function () {
           //fail here;
@@ -93,7 +93,7 @@ describe('AppUser', function () {
       beforeEach(function () {
         appUser.emailAddresses = [];
       });
-      afterEach(function(){
+      afterEach(function () {
         appUser.emailAddresses = [];
       });
       it('allows valid email', function () {
@@ -101,6 +101,12 @@ describe('AppUser', function () {
           address: 'test@hoi.io'
         });
         return expect(appUser.validateAsync()).to.be.fulfilled;
+      });
+      it('has no id',function(){
+        appUser.emailAddresses.push({
+          address:'test@hoi.io'
+        });
+        return expect(appUser.emailAddresses[0]._id).to.not.exist;
       });
       it('rejects invalid email', function () {
         appUser.emailAddresses.push({
@@ -117,9 +123,8 @@ describe('AppUser', function () {
         });
 
       });
-       it('rejects blank email', function () {
-        appUser.emailAddresses.push({
-        });
+      it('rejects blank email', function () {
+        appUser.emailAddresses.push({});
         return appUser.validateAsync().then(function () {
           //fail here;
           expect(false).to.be.true();
