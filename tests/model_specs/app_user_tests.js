@@ -102,6 +102,12 @@ describe('AppUser', function () {
         });
         return expect(appUser.validateAsync()).to.be.fulfilled;
       });
+      it('has no id',function(){
+        appUser.emailAddresses.push({
+          address:'test@hoi.io'
+        });
+        return expect(appUser.emailAddresses[0]._id).to.not.exist;
+      });
       it('rejects invalid email', function () {
         appUser.emailAddresses.push({
           address: '3'
