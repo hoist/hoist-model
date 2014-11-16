@@ -64,9 +64,16 @@ describe('HoistForgottenPassword', function () {
     });
 
     describe('validation without user id', function () {
-      it('is not saved', function () {
-        return expect(new HoistForgottenPassword({
-        }).saveAsync()).to.not.be.fulfilled;
+      it('throws a validation error', function () {
+        return expect(new HoistForgottenPassword({})
+        .saveAsync()).to.be.rejectedWith('Validation failed');
+      });
+
+      it('is gives correct validation error message', function () {
+        return new HoistForgottenPassword({}).saveAsync()
+        .catch(function (error) {
+          expect(error.errors.user.message).to.eql('Must belong to a Hoist User');
+        });
       });
     });
   });
