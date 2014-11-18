@@ -25,7 +25,8 @@ describe('EmailValidationToken', function () {
     var saved;
     before(function () {
       saved = new EmailValidationToken({
-        user: '123456789'
+        user: '123456789',
+        email: 'test@test.com'
       }).saveAsync();
     });
     describe('save', function () {
@@ -40,6 +41,12 @@ describe('EmailValidationToken', function () {
       it('has activation code', function () {
         return expect(saved.then(function (validationToken) {
           return validationToken.activationCode.length;
+        })).to.exist;
+      });
+
+      it('has email address', function () {
+        return expect(saved.then(function (validationToken) {
+          return validationToken.email.length;
         })).to.exist;
       });
 
