@@ -24,7 +24,11 @@ describe('Organisation', function () {
   describe('on save', function () {
     var saved;
     before(function () {
-      saved = new Organisation().saveAsync();
+      var options = {
+        name: 'test name',
+        gitFolder: 'git folder'
+      };
+      saved = new Organisation(options).saveAsync();
     });
     it('should save ok', function () {
       return expect(saved).to.be.fulfilled;
