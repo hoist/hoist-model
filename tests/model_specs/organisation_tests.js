@@ -48,5 +48,10 @@ describe('Organisation', function () {
         expect(organisation._id.length).to.eql(20);
       });
     });
+    it('should have a personal attribute set to false', function () {
+      return saved.then(function (organisation) {
+        expect(organisation.personal).to.eql(false);
+      });
+    });
   });
 });
