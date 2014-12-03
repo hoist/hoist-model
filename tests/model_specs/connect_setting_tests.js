@@ -41,11 +41,11 @@ describe('ConnectorSetting', function () {
         key: 'key',
         environment: 'dev'
       });
-      saved = setting1.saveAsync().then(function () {
-        return setting2.saveAsync().then(function(){
+      return (saved = setting1.saveAsync().then(function () {
+        return setting2.saveAsync().then(function () {
           return setting3.saveAsync();
         });
-      });
+      }));
     });
     it('should save correctly', function () {
       return expect(saved).to.be.fulfilled;
