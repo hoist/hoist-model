@@ -48,6 +48,18 @@ describe('Organisation', function () {
         expect(organisation._id.length).to.eql(20);
       });
     });
+    it('has gitFolder property', function () {
+      return saved.then(function (organisation) {
+        organisation.slug = 'org_slug';
+        expect(organisation.gitFolder).to.eql('org_slug');
+      });
+    });
+    it('links gitFolder to slug', function () {
+      return saved.then(function (organisation) {
+        organisation.gitFolder = 'org_slug_2';
+        expect(organisation.slug).to.eql('org_slug_2');
+      });
+    });
     it('should have a personal attribute set to false', function () {
       return saved.then(function (organisation) {
         expect(organisation.personal).to.eql(false);
