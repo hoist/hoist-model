@@ -57,6 +57,18 @@ describe('Application', function () {
         expect(application.dataKey.toLowerCase()).to.eql(application.dataKey);
       });
     });
+    it('has gitRepo property',function(){
+      return saved.then(function(application){
+        application.slug = 'app_slug';
+        expect(application.gitRepo).to.eql('app_slug');
+      });
+    });
+    it('links gitRepo to slug',function(){
+      return saved.then(function(application){
+        application.gitRepo = 'app_slug_2';
+        expect(application.slug).to.eql('app_slug_2');
+      });
+    });
     it('sets api key', function () {
       return saved.then(function (application) {
         expect(application.apiKey).to.exist;
