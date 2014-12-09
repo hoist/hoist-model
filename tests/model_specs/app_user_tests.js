@@ -10,7 +10,6 @@ describe('AppUser', function () {
     if (mongoose.connection.db) {
       return done();
     }
-
     mongoose.connect(dbUri, done);
   });
   after(function (done) {
@@ -102,9 +101,9 @@ describe('AppUser', function () {
         });
         return expect(appUser.validateAsync()).to.be.fulfilled;
       });
-      it('has no id',function(){
+      it('has no id', function () {
         appUser.emailAddresses.push({
-          address:'test@hoi.io'
+          address: 'test@hoi.io'
         });
         return expect(appUser.emailAddresses[0]._id).to.not.exist;
       });
