@@ -25,7 +25,7 @@ describe('HoistUser', function () {
     var user;
     before(function () {
       user = new HoistUser({
-        organisation: 'orgid'
+        organisations: 'orgid'
       });
     });
     describe('save', function () {
