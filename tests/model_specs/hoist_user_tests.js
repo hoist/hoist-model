@@ -36,6 +36,9 @@ describe('HoistUser', function () {
       it('is saved', function () {
         return expect(saved).to.be.fulfilled;
       });
+      it('has a role of user', function() {
+        return expect(user.role).to.eql('USER');
+      });
       it('has id', function () {
         return expect(saved.then(function (user) {
           return user._id.length;
