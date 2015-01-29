@@ -13,11 +13,9 @@ describe('Subscription', function () {
     mongoose.connect(dbUri, done);
   });
   after(function (done) {
-    Subscription.remove({}, function () {
-      mongoose.disconnect(function () {
-        delete mongoose.connection.db;
-        done();
-      });
+    mongoose.disconnect(function () {
+      delete mongoose.connection.db;
+      done();
     });
   });
   describe('validation', function () {
@@ -29,6 +27,9 @@ describe('Subscription', function () {
         endpoints: '/contacts',
         connector: 'connectorID'
       });
+    });
+    after(function () {
+      return Subscription.removeAsync({});
     });
     describe('save', function () {
       var saved;
@@ -106,6 +107,41 @@ describe('Subscription', function () {
           expect(err.errors.connector.message).to.eql('subscriptions must belong to a connector');
         });
       });
+    });
+  });
+
+  describe('saving with same connector but different app or env', function () {
+    var saved;
+    before(function () {
+      var subscription1 = new Subscription({
+        name: 'connector 1',
+        application: 'appid',
+        connector: 'key',
+        environment: 'live'
+      });
+      var subscription2 = new Subscription({
+        name: 'connector 2',
+        application: 'appid2',
+        connector: 'key',
+        environment: 'live'
+      });
+      var subscription3 = new Subscription({
+        name: 'connector 3',
+        application: 'appid2',
+        connector: 'key',
+        environment: 'dev'
+      });
+      return (saved = subscription1.saveAsync().then(function () {
+        return subscription2.saveAsync().then(function () {
+          return subscription3.saveAsync();
+        });
+      }));
+    });
+    it('should save correctly', function () {
+      return expect(saved).to.be.fulfilled;
+    });
+    after(function () {
+      return Subscription.removeAsync({});
     });
   });
 
