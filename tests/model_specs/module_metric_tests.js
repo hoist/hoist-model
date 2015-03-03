@@ -1,12 +1,13 @@
 'use strict';
 require('../bootstrap');
 var ModuleMetric = require('../../lib').ModuleMetric;
-//var expect = require('chai').expect;
+var expect = require('chai').expect;
 var dbUri = 'mongodb://localhost/hoist-model-test';
 var mongoose = require('mongoose');
 var moment = require('moment');
 describe('ModuleMetric', function () {
   before(function (done) {
+    mongoose.set('debug', true);
     if (mongoose.connection.db) {
       return done();
     }
@@ -24,22 +25,24 @@ describe('ModuleMetric', function () {
     ModuleMetric.remove({}, done);
   });
   describe('updating a stat', function () {
-    var statDate = moment();
+    var statDate = moment().startOf('hour').add('m', 23);
     before(function () {
       var existingMetricDocument = new ModuleMetric({
         application: 'app',
         environment: 'live',
         moduleName: 'random_module_name',
-        timestampHour: statDate.utc().startOf('hour').toDate()
+        timestampHour: statDate.clone().utc().startOf('hour').toDate()
       });
       return existingMetricDocument.saveAsync().then(function () {
         var update = {
-          $inc: {}
+          $inc: {
+
+          }
         };
-        update.$inc['executions.' + statDate.utc().minutes] = 1;
-        update.$inc['failures.' + statDate.utc().minutes] = 1;
-        update.$inc['timeouts.' + statDate.utc().minutes] = 1;
-        ModuleMetric.update({
+        update.$inc['executions.' + statDate.utc().minutes()] = 1;
+        update.$inc['failures.' + statDate.utc().minutes()] = 1;
+        update.$inc['timeouts.' + statDate.utc().minutes()] = 1;
+        return ModuleMetric.updateAsync({
           application: 'app',
           environment: 'live',
           moduleName: 'random_module_name',
@@ -50,7 +53,39 @@ describe('ModuleMetric', function () {
     it('updates all values', function () {
       return ModuleMetric.findOneAsync()
         .then(function (metric) {
-          console.log(metric);
+          expect(metric.failures['23']).to.eql(1);
+          expect(metric.executions['23']).to.eql(1);
+          expect(metric.failures['23']).to.eql(1);
+        });
+    });
+  });
+  describe('creating a stat', function () {
+    var statDate = moment().startOf('hour').add('m', 26);
+    before(function () {
+
+      var update = {
+        $inc: {
+
+        }
+      };
+      update.$inc['executions.' + statDate.utc().minutes()] = 1;
+      update.$inc['failures.' + statDate.utc().minutes()] = 1;
+      update.$inc['timeouts.' + statDate.utc().minutes()] = 1;
+      return ModuleMetric.updateAsync({
+        application: 'app',
+        environment: 'live',
+        moduleName: 'random_module_name',
+        timestampHour: statDate.utc().startOf('hour').toDate()
+      }, update, {
+        upsert: true
+      });
+    });
+    it('updates all values', function () {
+      return ModuleMetric.findOneAsync()
+        .then(function (metric) {
+          expect(metric.failures['26']).to.eql(1);
+          expect(metric.executions['26']).to.eql(1);
+          expect(metric.failures['26']).to.eql(1);
         });
     });
   });
