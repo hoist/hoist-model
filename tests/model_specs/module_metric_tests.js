@@ -75,7 +75,7 @@ describe('ModuleMetric', function () {
         application: 'app',
         environment: 'live',
         moduleName: 'random_module_name',
-        timestampHour: statDate.utc().startOf('hour').toDate()
+        timestampHour: statDate.clone().utc().startOf('hour').toDate()
       }, update, {
         upsert: true
       });
