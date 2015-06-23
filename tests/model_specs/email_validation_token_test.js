@@ -73,7 +73,7 @@ describe('EmailValidationToken', function () {
     describe('validation without user id', function () {
       it('throws a validation error', function () {
         return expect(new EmailValidationToken({})
-        .saveAsync()).to.be.rejectedWith('Validation failed');
+        .saveAsync()).to.be.rejectedWith('validation failed');
       });
 
       it('is gives correct validation error message', function () {
