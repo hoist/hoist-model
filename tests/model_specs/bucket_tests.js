@@ -22,6 +22,9 @@ describe('Bucket', function () {
   });
   describe('saving setting with same key but different org', function () {
     var saved;
+    process.on('uncaughtException', function (err) {
+      console.log('Caught exception: ' + err);
+    });
     before(function () {
       var setting1 = new Model.Bucket({
         application: 'appid',
@@ -38,14 +41,20 @@ describe('Bucket', function () {
         key: 'key',
         environment: 'dev'
       });
-      return (saved = setting1.saveAsync().then(function () {
-        return setting2.saveAsync().then(function () {
-          return setting3.saveAsync();
+      try {
+        return setting1.saveAsync().then(function () {
+          return setting2.saveAsync().then(function () {
+            return setting3.saveAsync();
+          });
+        }).then(function () {
+          saved = true;
         });
-      }));
+      } catch (err) {
+        console.log('err');
+      }
     });
     it('should save correctly', function () {
-      return expect(saved).to.be.fulfilled;
+      return expect(saved).to.eql(true);
     });
     after(function () {
       return Model.Bucket.removeAsync({});

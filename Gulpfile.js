@@ -3,7 +3,6 @@ var gulp = require('gulp');
 var jshint = require('gulp-jshint');
 var istanbul = require('gulp-istanbul');
 var mocha = require('gulp-mocha');
-var coverageEnforcer = require('gulp-istanbul-enforcer');
 var runSequence = require('run-sequence');
 
 var globs = {
@@ -27,7 +26,6 @@ function runJshint() {
 }
 
 function mochaServer(options) {
-
   return gulp.src(globs.specs, {
       read: false
     })
@@ -56,10 +54,11 @@ gulp.task('jshint', function () {
 
 gulp.task('mocha-server-continue', function (cb) {
   gulp.src(globs.js.lib)
-    .pipe(istanbul())
-    .on('error', function (err) {
-      console.log('istanbul error', err);
-    })
+    .pipe(istanbul()) // Covering files
+  .pipe(istanbul.hookRequire()) // Force `require` to return covered files
+  .on('error', function (err) {
+    console.log('istanbul error', err);
+  })
     .on('finish', function () {
       mochaServer().on('error', function (err) {
         console.trace(err);
@@ -69,30 +68,28 @@ gulp.task('mocha-server-continue', function (cb) {
         .on('end', cb);
     });
 });
-gulp.task('enforce-coverage', ['mocha-server'], function () {
-  var options = {
-    thresholds: {
-      statements: 80,
-      branches: 80,
-      lines: 80,
-      functions: 80
-    },
-    coverageDirectory: 'coverage',
-    rootDirectory: process.cwd()
-  };
-  return gulp.src(globs.js.lib)
-    .pipe(coverageEnforcer(options));
-});
+var coverageThresholds = {
+  statements: 80,
+  branches: 80,
+  lines: 80,
+  functions: 80
+};
+
 gulp.task('mocha-server', function (cb) {
   gulp.src(globs.js.lib)
-    .pipe(istanbul())
-    .on('finish', function () {
-      mochaServer({
-        reporter: 'spec'
-      })
-        .pipe(istanbul.writeReports(coverageOptions))
-        .on('end', cb);
-    });
+    .pipe(istanbul()) // Covering files
+  .pipe(istanbul.hookRequire()) // Force `require` to return covered files
+  .on('finish', function () {
+    mochaServer({
+      reporter: 'spec'
+    })
+      .pipe(istanbul.writeReports()) // Creating the reports after tests runned
+    .pipe(istanbul.enforceThresholds({
+      thresholds: coverageThresholds
+    }))
+
+    .on('end', cb);
+  });
 });
 
 gulp.task('watch', function () {
@@ -115,16 +112,13 @@ gulp.task('seq-test', function () {
 });
 gulp.task('test', function () {
   return gulp.start('jshint-build',
-    'mocha-server',
-    'enforce-coverage');
+    'mocha-server');
 });
 gulp.task('build', function () {
   return gulp.start('jshint-build',
-    'mocha-server',
-    'enforce-coverage');
+    'mocha-server');
 });
 gulp.task('default', function () {
   return gulp.start('jshint-build',
-    'mocha-server',
-    'enforce-coverage');
+    'mocha-server');
 });
