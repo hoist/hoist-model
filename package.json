@@ -33,14 +33,14 @@
     "sinon-chai": "^2.5.0"
   },
   "dependencies": {
-    "@hoist/mongoose-shortid": "^0.5.0",
+    "@hoist/mongoose-delete": "^1.0.0",
+    "@hoist/mongoose-shortid": "^1.0.1",
     "bcrypt": "^0.8.1",
     "bluebird": "^2.3.2",
     "config": "^1.5.0",
     "keygenerator": "^1.0.2",
     "lodash": "^3.8.0",
-    "mongoose": "^4.0.3",
-    "@hoist/mongoose-delete": "^1.0.0",
+    "mongoose": "^4.1.8",
     "mongoose-timestamp": "^0.4.0",
     "moniker": "^0.1.2",
     "validator": "^3.19.0"
