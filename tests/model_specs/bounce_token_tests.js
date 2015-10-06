@@ -39,8 +39,8 @@ describe('BouncerToken', function () {
       return expect(saved).to.be.fulfilled;
     });
     it('should save display properties', function () {
-      return expect(token.displayProperties[0]).to.have.property('_id')
-        .that.is.an('object');
+      return expect(token.displayProperties[0]).to.have.property('name')
+        .that.is.a('string');
     });
     after(function () {
       return Model.BouncerToken.removeAsync({});
