@@ -2,7 +2,7 @@ machine:
   ruby:
     version: 2.1.2
   node:
-    version: iojs-v1.8
+    version: 4
 dependencies:
   pre:
     - echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
