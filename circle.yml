@@ -11,3 +11,9 @@ general:
     - coverage/**/*
     - log/*.log
     - npm-debug.log
+deployment:
+  release:
+    tag: /^v[0-9]*\.[0-9]*\.[0-9]*.*/
+    owner: hoist
+    commands:
+      - npm publish
