@@ -2,7 +2,7 @@ machine:
   ruby:
     version: 2.1.2
   node:
-    version: iojs-v1.8
+    version: 4
 dependencies:
   pre:
     - echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
@@ -11,3 +11,9 @@ general:
     - coverage/**/*
     - log/*.log
     - npm-debug.log
+deployment:
+  release:
+    tag: /^v[0-9]*\.[0-9]*\.[0-9]*.*/
+    owner: hoist
+    commands:
+      - npm publish
