@@ -1,0 +1,9 @@
+src
+tasks
+tests
+config
+coverage
+node_modules
+circle.yml
+esdoc.json
+Gulpfile.js
