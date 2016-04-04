@@ -1,6 +1,6 @@
 {
   "name": "@hoist/model",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "description": "The Hoist Model",
   "main": "lib/index.js",
   "scripts": {
