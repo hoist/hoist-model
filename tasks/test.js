@@ -1,5 +1,4 @@
-const gulp = require('gulp');
+var gulp = require('gulp');
 
-gulp.task('test', () => {
-
-});
+gulp.task('test', ['eslint', 'mocha']);
+gulp.task('test-and-watch', ['eslint-continue', 'mocha-continue']);

@@ -1,6 +1,6 @@
 'use strict';
 require('../bootstrap');
-var Model = require('../../lib');
+var Model = require('../../src');
 var expect = require('chai').expect;
 var mongoose = Model._mongoose;
 var config = require('config');
