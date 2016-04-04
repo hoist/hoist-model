@@ -1,6 +1,6 @@
 'use strict';
 require('../bootstrap');
-var ModuleMetric = require('../../src').ModuleMetric;
+var ModuleMetric = require('../../lib').ModuleMetric;
 var expect = require('chai').expect;
 var dbUri = 'mongodb://localhost/hoist-model-test';
 var mongoose = require('mongoose');

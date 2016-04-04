@@ -1,6 +1,6 @@
 'use strict';
 require('../bootstrap');
-var EmailValidationToken = require('../../src').EmailValidationToken;
+var EmailValidationToken = require('../../lib').EmailValidationToken;
 var expect = require('chai').expect;
 var dbUri = 'mongodb://localhost/hoist-model-test';
 var mongoose = require('mongoose');

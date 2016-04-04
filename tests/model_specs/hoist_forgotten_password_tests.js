@@ -1,6 +1,6 @@
 'use strict';
 require('../bootstrap');
-var HoistForgottenPassword = require('../../src').HoistForgottenPassword;
+var HoistForgottenPassword = require('../../lib').HoistForgottenPassword;
 var expect = require('chai').expect;
 var dbUri = 'mongodb://localhost/hoist-model-test';
 var mongoose = require('mongoose');

@@ -6,7 +6,7 @@ let modelList = {};
 
 fs.readdirSync(modelsPath).forEach(function (file) {
   /* istanbul ignore else  */
-  if (file.indexOf('.js') >= 0) {
+  if (file.endsWith('.js')) {
     var m = require(modelsPath + '/' + file);
     modelList[m.name] = m.model;
   }
