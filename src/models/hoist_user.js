@@ -59,7 +59,11 @@ var HoistUserSchema = new Schema({
     default: 'USER',
     uppercase: true
   },
-  passwordResetDate: Date
+  passwordResetDate: Date,
+  uiData: {
+    type: Schema.Types.Mixed,
+    default: {}
+  }
 },{
   read: 'nearest'
 });

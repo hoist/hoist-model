@@ -44,6 +44,9 @@ describe('HoistUser', function () {
           return user._id.length;
         })).to.become(20);
       });
+      it('has ui data', function() {
+        return expect(user.uiData).to.eql({});
+      });
     });
     describe('email', function () {
       beforeEach(function () {
