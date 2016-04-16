@@ -44,4 +44,3 @@ coverage/*
 log/*
 config/runtime.json
 .queues
-lib
