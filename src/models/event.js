@@ -39,6 +39,10 @@ var EventSchema = new Schema({
     type: ShortId,
     ref: 'Bucket'
   },
+  synchronous: {
+    type: Boolean,
+    default: false
+  },
   sessionId: {
     type: ShortId,
     ref: 'Session'
