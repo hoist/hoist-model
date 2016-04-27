@@ -51,7 +51,14 @@ var ApplicationSchema = new Schema({
       return require('moniker').choose();
     }
   },
-
+  billing: {
+    type: Schema.Types.Mixed,
+    default: function() {
+      return {
+        plan: 'BASIC'
+      };
+    }
+  },
   //api key
   apiKey: {
     type: String,
